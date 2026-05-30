@@ -30,7 +30,7 @@ fn GetW objArray =
 )
 
 ------------------GET OPERANDS FROM SELECTION
-fn GetO objArray = 
+fn getOperands objArray = 
 (
 	local TheOperands = #()
 	if classof objArray == ObjectSet or classof objArray == NodeChildrenArray then objArray = for o in objArray collect o
@@ -57,7 +57,7 @@ fn CleanUpWall =
 	ObjArray = for o in ObjArray where (custAttributes.get o 1).name == "objData" collect o
 		
 	TheWalls = GetW ObjArray
-	TheOperands = GetO ObjArray
+	TheOperands = getOperands ObjArray
 	TheSource = GetS ObjArray
 	
 	if TheWalls.count > 0 then 
@@ -84,7 +84,7 @@ fn ExtractSel selToExtract =
 	selOperands = #()
 	WallOeprndsIDs = #()
 	ScrGroups = #()
-	selOperands = GetO selToExtract
+	selOperands = getOperands selToExtract
 	
 	if selOperands.count > 0 then
 	(

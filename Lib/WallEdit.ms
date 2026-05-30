@@ -95,7 +95,7 @@ fn WallEditExit =
 		if OperandIDs.count > 0 then
 		(
 			AllObj = for o in objects collect o
-			WallOperands =	for o in getO AllObj where finditem OperandIDs o.wID > 0 collect o
+			WallOperands =	for o in getOperands AllObj where finditem OperandIDs o.wID > 0 collect o
 -- 			OperandsObj[OperandsObj.count+1] = theWall
 		)
 

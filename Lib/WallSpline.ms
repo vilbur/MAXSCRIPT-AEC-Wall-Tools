@@ -23,7 +23,7 @@ function copySpl bSpline =
 			for v = 1 to numknots bSpline i collect 
 			(
 				if v == (numknots bSpline i) then segtype = (getSegmentType bSpline i (v-1)) else segtype = (getSegmentType bSpline i v)
-				#(getKnotType bSpline i v, segtype, getknotpoint bSpline i v, getinvec bSpline i v, getoutvec bSpline i v)
+				#(getKnotType bSpline i v, segtype, getknotpoint bSpline i v, getinvec bSpline i v, getOperandsutvec bSpline i v)
 			)
 		)
 		append originalSelection (getsegselection bSpline i)

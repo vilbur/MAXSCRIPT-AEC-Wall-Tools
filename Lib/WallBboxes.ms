@@ -37,7 +37,7 @@ fn Bbox_Local ScrObjects theWall = --start
 
 fn BBScale axisValue val =
 (	
-	Operands = getO selection
+	Operands = getOperands selection
 	for o in Operands where o.wWalls.count > 0  do 
 	(
 		case axisValue of

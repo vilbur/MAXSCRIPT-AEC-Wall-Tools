@@ -31,11 +31,13 @@
 	
 	--global WallRefresh = WallRefreshStruct()
 
-	--Wall_CleanUp()
+	wSetAtt ( selection as Array ) "Wall"
+
+	--CleanUpWall()
 	--Wall_PostNodeCloned()
 	--Wall_selectedNodesPreDelete()
 	
 	--WallRefresh.Wall_OnSectionCHangeCallBack()
-	Wall_OnSectionCHangeCallBack()
+	OnSectionChangeCallBackAdd()
 	
 --)

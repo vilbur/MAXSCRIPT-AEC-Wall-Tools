@@ -6,7 +6,7 @@ Version: 0.01
 */
 -- global oID = (genClassID returnValue:true )[1]
 
-fn wSetAtt objArray wObjType = 
+fn wSetAtt objArray aec_type = 
 (
 	if classof objArray != array then objArray = #(objArray)
 	objArray = for o in objArray where (custAttributes.get o 1) == undefined collect o
@@ -14,25 +14,26 @@ fn wSetAtt objArray wObjType =
 	for o in objArray do 
 	(
 		local objData = undefined
+		
 		if objData == undefined then 
 		(
-			if wObjType == "Wall"  or  wObjType == "Floor" or wObjType == "Ceil"  then
+			if aec_type == "Wall"  or  aec_type == "Floor" or aec_type == "Ceil"  then
 			(
 				objData = attributes "objData"
 				(
 					parameters prmID  rollout:rollObjData
 					(
-						wID type: #integer
-						wType type: #string --default:"Wall" 
-						wState type: #string 
-						splArrAtt type: #string  
-						CloseArrAtt type: #string  
-						SplinePivot type: #string  
-						wO  type: #float  
-						wH  type: #float  
-						wcapStart type:#boolean default:true
-						wcapEnd type:#boolean default:true
-						wOperands type:#intTab tabSizeVariable:true
+						wID	type: #integer
+						wType	type: #string default:"Wall" 
+						wState	type: #string 
+						splArrAtt	type: #string  
+						CloseArrAtt	type: #string  
+						SplinePivot	type: #string  
+						wO 	type: #float  
+						wH 	type: #float  
+						wcapStart	type:#boolean default:true
+						wcapEnd	type:#boolean default:true
+						wOperands	type:#intTab tabSizeVariable:true
 					)
 					rollout rollObjData "WallTools"
 					(			
@@ -42,7 +43,7 @@ fn wSetAtt objArray wObjType =
 				)
 				custAttributes.add o objData
 			)
-			else if wObjType == "Operand" then
+			else if aec_type == "Operand" then
 			(
 				objData = attributes "objData"
 				(
