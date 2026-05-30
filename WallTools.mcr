@@ -29,8 +29,13 @@
 		Initialize main methods from initialized structs 
 	*/
 	
-	Wall_CleanUp()
-	Wall_PostNodeCloned()
-	Wall_selectedNodesPreDelete()
+	--global WallRefresh = WallRefreshStruct()
+
+	--Wall_CleanUp()
+	--Wall_PostNodeCloned()
+	--Wall_selectedNodesPreDelete()
+	
+	--WallRefresh.Wall_OnSectionCHangeCallBack()
 	Wall_OnSectionCHangeCallBack()
+	
 --)

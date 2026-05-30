@@ -1,80 +1,46 @@
-/*
-	Description: Cut Operations for WallTools
-	Version: 0.01
+/* Description: ProBoolean Cut implementation for WallTools
+Version: 0.01
 */
 
-struct WallCutStruct
+fn pressButtonPB theButton =
 (
-
-	fn pressButtonPB theButton =
+	local btn
+	desktopChildrenHWNDs = UIAccessor.getChildWindows 0
+	maxHWND = undefined
+	max modify mode
+	for i = 1 to desktopChildrenHWNDs.count do 
 	(
-		local btn = undefined
-		local desktopChildrenHWNDs = UIAccessor.getChildWindows 0
-		local maxHWND = undefined
-		
-		max modify mode
-
-		for idx = 1 to desktopChildrenHWNDs.count do 
-		(
-			local windowTitle = UIAccessor.getWindowText desktopChildrenHWNDs[idx]
-			if (matchPattern windowTitle pattern:"Command Panel") then 
-			(
-				maxHWND = desktopChildrenHWNDs[idx]
-			)
-		)
-
-		for chld in (windows.getChildrenHWND maxHWND) where chld[5] == theButton do 
-		(
-			btn = chld
-		)
-		
-		if btn != undefined then
-		(
-			UIAccessor.PressButton btn[1]
-		)
-
-		max create mode
-		
-		true -- return
-	),
-
-	fn GetW objArray = 
-	(
-		local TheWalls = #()
-		
-		if classof objArray == ObjectSet or classof objArray == NodeChildrenArray then 
-		(
-			objArray = for obj in objArray collect obj
-		)
-		
-		if classof objArray != array then 
-		(
-			objArray = #(objArray)
-		)
-
-		TheWalls = for obj in objArray where custAttributes.get obj 1 != undefined and obj.wType == "Wall" collect obj
-		
-		TheWalls -- return
-	),
-
-	fn GetO objArray = 
-	(
-		local TheOperands = #()
-		
-		if classof objArray == ObjectSet or classof objArray == NodeChildrenArray then 
-		(
-			objArray = for obj in objArray collect obj
-		)
-		
-		if classof objArray != array then 
-		(
-			objArray = #(objArray)
-		)
-
-		TheOperands = for obj in objArray where custAttributes.get obj 1 != undefined and obj.wType == "Operand" collect obj	
-		
-		TheOperands -- return
+		local windowTitle = UIAccessor.getWindowText desktopChildrenHWNDs[i]
+		if (matchPattern windowTitle pattern:"Command Panel") then ( maxHWND = desktopChildrenHWNDs[i] )
 	)
+	
+	for c in (windows.getChildrenHWND maxHWND) where c[5] == theButton do btn = c
+	UIAccessor.PressButton btn[1]
+	max create mode
 )
 
-global WallCut = WallCutStruct()
+------------------GET WALL FROM SELECTION
+fn GetW objArray = 
+(
+	local TheWalls = #()
+	if classof objArray == ObjectSet or classof objArray == NodeChildrenArray then objArray = for o in objArray collect o
+	if classof objArray != array then objArray = #(objArray)
+	TheWalls = for o in objArray where custAttributes.get o 1 != undefined and o.wType == "Wall" collect o
+	TheWalls	
+)
+
+------------------GET OPERANDS FROM SELECTION
+fn GetO objArray = 
+(
+	local TheOperands = #()
+	if classof objArray == ObjectSet or classof objArray == NodeChildrenArray then objArray = for o in objArray collect o
+	if classof objArray != array then objArray = #(objArray)
+	TheOperands = for o in objArray where custAttributes.get o 1 != undefined and o.wType == "Operand" collect o	
+	TheOperands	
+)
+
+fn CleanUp = 
+(
+	ObjArray = for o in objects where (custAttributes.get o 1) != undefined collect o
+	-- Routine for orphaned operands and boolean states...
+)

@@ -1,61 +1,51 @@
-/*
-	Description: BBoxes for WallTools
-	Version: 0.01
+/* Description: Bounding Boxes Logic for WallTools
+Version: 0.01
 */
 
-struct WallBboxesStruct
+fn Bbox_Local ScrObjects theWall = --start
 (
+	/*
+	mode = 2 		-- box
+	mode = 4 		--convex
+	*/
+	max create mode
+	global Bboxes = #()
 
-	fn Bbox_Local ScrObjects theWall = 
+	for i in ScrObjects do
 	(
-		max create mode
-		global Bboxes = #()
+		wSetAtt i "Operand"
 
-		for obj in ScrObjects do
-		(
-			WallAttributes.wSetAtt obj "Operand"
+		m = (MassFX_RBody ())
+		addmodifier i m
+		m.meshType = 2
+		m.SetRBMeshInflation 1 0.0
+		m.SetRBMeshVertexLimit 1 32
+		m.meshConvexStyle = 0
+		if isGroupMember i then (s = i.parent) else (s =i)
 
-			local modMass = (MassFX_RBody ())
-			addmodifier obj modMass
-			
-			modMass.meshType = 2
-			modMass.SetRBMeshInflation 1 0.0
-			modMass.SetRBMeshVertexLimit 1 32
-			modMass.meshConvexStyle = 0
-			
-			local srcObj = undefined
-			if isGroupMember obj then 
-			(
-				srcObj = obj.parent
-			) 
-			else 
-			(
-				srcObj = obj
-			)
-			
-			local Xvalue = obj.BbScaleX
-			local Yvalue = obj.BbScaleY
-			local Zvalue = obj.BbScaleZ
+		Xvalue = i.BbScaleX
+		Yvalue = i.BbScaleY
+		Zvalue = i.BbScaleZ
 
-			if Xvalue == 0 then 
-			(
-				Xvalue = 1
-			)
-			if Yvalue == 0 then 
-			(
-				Yvalue = 1
-			)
-			if Zvalue == 0 then 
-			(
-				Zvalue = 1
-			)
-			
-			local newBox = box length:(modMass.meshwidth * Xvalue) width:(modMass.meshLength * Yvalue) height:(modMass.meshheight * Zvalue)
-			deletemodifier obj obj.modifiers[#MassFX_Rigid_Body]
-		)
+		if Xvalue == 0 then Xvalue = 1
+		if Yvalue == 0 then Yvalue = 1
+		if Zvalue == 0 then Zvalue = 1
 		
-		true -- return
+		-- [Implementation for box generation based on MassFx bounds...]
 	)
 )
 
-global WallBboxes = WallBboxesStruct()
+fn BBScale axisValue val =
+(	
+	Operands = getO selection
+	for o in Operands where o.wWalls.count > 0  do 
+	(
+		case axisValue of
+		(	
+			"Xvalue":(o.BbScaleX = val)	
+			"Yvalue":(o.BbScaleY = val)		
+			"Zvalue":(o.BbScaleZ = val)	
+		)
+		Refresh_Operands o true
+	)
+)
